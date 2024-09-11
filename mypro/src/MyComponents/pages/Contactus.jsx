@@ -1,8 +1,22 @@
-import React from 'react';
+import React,{useState} from 'react';
 import styled from 'styled-components';
 
 
 const ContactUs = () => {
+  const [name,setName] = useState("");
+  const [email,setEmail] = useState("");
+  const [message,setMessage] = useState("");
+  const sendMessage = async () =>{
+      
+    let result = await fetch('http://localhost:4000/contact', {
+        method: 'post',
+        body: JSON.stringify({name,email,message}),
+        headers: { 'Content-Type': 'application/json' },
+    });
+    console.log(result);
+  
+  
+}
   return (
     <Wrapper>
       <div className='map1'>
@@ -17,17 +31,17 @@ const ContactUs = () => {
             <form>
               <div className="form-group">
                 <label htmlFor="name">Name</label>
-                <input type="text" className="form-control" id="name" required />
+                <input type="text" className="form-control" id="name" value={name} onChange={(e)=>setName(e.target.value)} required />
               </div>
               <div className="form-group">
                 <label htmlFor="email">Email</label>
-                <input type="email" className="form-control" id="email" required />
+                <input type="email" className="form-control" id="email" value={email} onChange={(e)=>setEmail(e.target.value)} required />
               </div>
               <div className="form-group">
                 <label htmlFor="message">Message</label>
-                <textarea className="form-control" id="message" rows="6" required></textarea>
+                <textarea className="form-control" id="message" rows="6" value={message} onChange={(e)=>setMessage(e.target.value)} required></textarea>
               </div>
-              <button type="submit" className="btn btn-primary">Submit</button>
+              <button type="submit" className="btn btn-primary" onClick={sendMessage}>Submit</button>
             </form>
           </div>
           <div className='col-md-6'>
@@ -66,7 +80,21 @@ const Wrapper = styled.div`
     overflow: hidden;
   }
 
-
+  .btn-primary {
+    margin-left:10px;
+    background-color: #e61041;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    }
+    
+    .btn-primary:hover {
+      background-color:#c30733;
+    }
   .container {
     max-width: 800px;
     margin: 0 auto;
